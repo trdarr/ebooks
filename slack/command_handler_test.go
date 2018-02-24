@@ -21,21 +21,9 @@ func TestCommandHandlerEbooksCommand(t *testing.T) {
 		t.Fatalf("Expected %d, got %d", http.StatusOK, w.Code)
 	}
 
-	ct := w.Header().Get("Content-Type")
-	if !strings.HasPrefix(ct, "application/json") {
-		t.Fatalf("Expected %s, got %s", "application/json", ct)
-	}
-
-	var r Response
 	b, _ := ioutil.ReadAll(w.Body)
-	json.Unmarshal(b, &r)
-
-	if ResponseTypeEphemeral != r.Type {
-		t.Fatalf("Expected %s, got %s", ResponseTypeEphemeral, r.Type)
-	}
-
-	if !strings.Contains(r.Text, "ebooks") {
-		t.Fatalf("Unexpected response %s", r.Text)
+	if "" != string(b) {
+		t.Fatalf("Unexpected empty body, got %s", string(b))
 	}
 }
 

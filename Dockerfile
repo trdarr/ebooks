@@ -11,6 +11,8 @@ RUN go install
 
 FROM alpine
 
+RUN apk --no-cache --update add ca-certificates
+
 EXPOSE 80
 
 RUN mkdir -p /etc/ebooks/

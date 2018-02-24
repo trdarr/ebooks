@@ -1,6 +1,7 @@
 package slack
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -49,9 +50,15 @@ func (h CommandHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(200)
-		fmt.Fprint(w, string(r))
+
+		res, err := http.Post(c.ResponseURL, "application/json", bytes.NewReader(r))
+		if err != nil {
+			log.Printf("Error sending message: %s", err)
+			return
+		}
+
+		log.Printf("Got %d, sent message: %s", res.StatusCode, string(r))
 
 	default:
 		s := fmt.Sprintf("Unexpected command: %s", c.Command)
