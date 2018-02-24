@@ -14,5 +14,6 @@ func main() {
 	}
 
 	http.Handle("/slack/action-endpoint", slack.ActionHandler{Config: config.Slack})
+	http.Handle("/slack/command", slack.CommandHandler{Config: config.Slack})
 	log.Fatal(http.ListenAndServe(":80", nil))
 }
